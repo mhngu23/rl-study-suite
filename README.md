@@ -1,7 +1,7 @@
 # 🎓 rl-study-suite
 
 A personal collection of foundational reinforcement learning algorithms, implemented from scratch for study and experimentation.  
-Based on Berkeley’s CS285 and designed for revision at 4 hours/week over 3 months.
+This project is inspired by [CS285](http://rail.eecs.berkeley.edu/deeprlcourse/) and is structured for revisiting core RL concepts over a 3-month period with ~4 hours/week commitment.
 
 ---
 
