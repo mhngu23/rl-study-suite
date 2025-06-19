@@ -40,31 +40,22 @@ rl-study-suite/
 - requirements.txt
 - agents/ # Core RL algorithms
     - reinforce.py
-    - dqn.py
-    - ddpg.py
-    - td3.py
-    - ppo.py
 - envs/ # Env wrappers and preprocessors
     - wrappers.py
 - utils/ # Shared tools
-    - logger.py
     - buffer.py
-    - networks.py
-    - config.py
 - scripts/ # Training scripts
-    - train_pg.py
-    - train_dqn.py
-    - train_ddpg.py
-    - train_ppo.py
+    - train.py
 - experiments/ # Logs, metrics, model checkpoints
 
 ---
+
 
 ##  🗓️  Implemented Algorithms
 
 | Category           | Algorithm       | Status       |
 |--------------------|------------------|---------------|
-| Policy Gradient    | REINFORCE        | ⏳ Planned |
+| Policy Gradient    | REINFORCE        | ✅ Done |
 |                    | Baseline PG      | ⏳ Planned |
 | Value-Based        | DQN              | ⏳ Planned |
 |                    | Double/Dueling   | ⏳ Planned |
@@ -84,3 +75,14 @@ cd rl-study-suite
 conda create -n rl-study python=3.10 -y
 conda activate rl-study
 pip install -r requirements.txt
+```
+
+## ▶️ Running Training
+```bash
+PYTHONPATH=. python scripts/train.py --agent reinforce --env CartPole-v1 --episodes 300
+```
+- agent   : Agent name (e.g., reinforce, ppo, etc.)
+
+- env     : Gym environment ID (e.g., CartPole-v1)
+
+- episodes: Number of training episodes (default: 200)

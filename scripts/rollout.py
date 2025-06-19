@@ -4,9 +4,10 @@ from envs.wrappers import make_env
 def rollout(env, policy=None, seed=42, max_steps=200):
     obs = env.reset(seed=seed)
     total_reward = 0.0
-    for _ in range(max_steps):
+    for i in range(max_steps):
+        print("Current step:", i)
         action = env.action_space.sample() if policy is None else policy(obs)
-        obs, reward, done, info = env.step(action)
+        obs, reward, done, info, _ = env.step(action)
         total_reward += reward
         if done:
             break
