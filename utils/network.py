@@ -13,3 +13,16 @@ class PolicyNetwork(nn.Module):
 
     def forward(self, x):
         return self.net(x)
+
+# Value Network estimates the value of a given state
+class ValueNetwork(nn.Module):
+    def __init__(self, state_dim, hidden_dim=128):
+        super().__init__()
+        self.net = nn.Sequential(
+            nn.Linear(state_dim, hidden_dim),
+            nn.ReLU(),
+            nn.Linear(hidden_dim, 1)
+        )
+
+    def forward(self, state):
+        return self.net(state)

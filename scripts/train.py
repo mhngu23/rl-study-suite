@@ -2,6 +2,7 @@ import argparse
 import numpy as np
 from envs.wrappers import make_env
 from agents.reinforce import REINFORCEAgent
+from agents.reinforce_withbaseline import REINFORCEAgent_withBaseline
 
 # Callable policy wrapper to plug into rollout logic
 def policy(env, agent, obs):
@@ -12,6 +13,10 @@ def policy(env, agent, obs):
         action, log_prob = agent.act(obs)
         agent.store(log_prob, None)  # Store log-prob only; reward added later
         return action
+    elif agent.name == "reinforce_with_baseline":
+        action, log_prob = agent.act(obs)
+        agent.store(obs, log_prob, None)  # Store state and log-prob; reward added later
+        return action
 
 def train(agent_name="reinforce", env_id="CartPole-v1", episodes=500):
     env = make_env(env_id)
@@ -21,6 +26,8 @@ def train(agent_name="reinforce", env_id="CartPole-v1", episodes=500):
     # Instantiate agent
     if agent_name == "reinforce":
         agent = REINFORCEAgent(state_dim, action_dim)
+    elif agent_name == "reinforce_with_baseline":
+        agent = REINFORCEAgent_withBaseline(state_dim, action_dim)
     else:
         raise NotImplementedError(f"Agent '{agent_name}' is not implemented yet.")
 
@@ -35,15 +42,22 @@ def train(agent_name="reinforce", env_id="CartPole-v1", episodes=500):
             action = policy(env, agent, obs)
             obs, reward, terminated, truncated, _ = env.step(action)
             done = terminated or truncated
-            agent.trajectory[t] = (agent.trajectory[t][0], reward)
+            if agent.name == "reinforce":
+                agent.trajectory[t] = (agent.trajectory[t][0], reward)  # Update the reward
+            elif agent.name == "reinforce_with_baseline":
+                agent.trajectory[t] = (agent.trajectory[t][0], agent.trajectory[t][1], reward)
             total_reward += reward
             if done:
                 break
         if agent.name == "reinforce":
             loss = agent.finish_episode()
+            if ep % 10 == 0:
+                print(f"[{agent.name.upper()}] Episode {ep} | Return: {total_reward:.2f} | Loss: {loss:.4f}")
+        elif agent.name == "reinforce_with_baseline":
+            policy_loss, value_loss = agent.finish_episode()
+            if ep % 10 == 0:
+                print(f"[{agent.name.upper()}] Episode {ep} | Return: {total_reward:.2f} | Value Loss: {value_loss:.4f} | Policy Loss: {policy_loss:.4f}")
 
-        if ep % 10 == 0:
-            print(f"[{agent.name.upper()}] Episode {ep} | Return: {total_reward:.2f} | Loss: {loss:.4f}")
 
     env.close()
 
