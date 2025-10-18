@@ -79,8 +79,9 @@ pip install -r requirements.txt
 
 ## ▶️ Running Training
 ```bash
-PYTHONPATH=. python scripts/train.py --agent reinforce --env CartPole-v1 --episodes 300
-PYTHONPATH=. python scripts/train.py --agent reinforce_with_baseline --env CartPole-v1 --episodes 300
+PYTHONPATH=. python scripts/train.py --agent reinforce --env CartPole-v1 --episodes 300 --save_path results/reinforce_cartpole_returns.csv
+
+PYTHONPATH=. python scripts/train.py --agent reinforce_with_baseline --env CartPole-v1 --episodes 300 --save_path results/reinforce_with_baseline_cartpole_returns.csv
 
 ```
 - agent   : Agent name (e.g., reinforce, ppo, etc.)
