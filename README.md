@@ -56,8 +56,8 @@ rl-study-suite/
 | Category           | Algorithm       | Status       |
 |--------------------|------------------|---------------|
 | Policy Gradient    | REINFORCE        | ✅ Done |
-|                    | Baseline PG      | ⏳ Planned |
-| Value-Based        | DQN              | ⏳ Planned |
+|                    | Baseline PG      | ✅ Done |
+| Value-Based        | DQN              | ✅ Done |
 |                    | Double/Dueling   | ⏳ Planned |
 | Actor-Critic       | A2C              | ⏳ Planned |
 |                    | PPO              | ⏳ Planned |
@@ -82,6 +82,8 @@ pip install -r requirements.txt
 PYTHONPATH=. python scripts/train.py --agent reinforce --env CartPole-v1 --episodes 300 --save_path results/reinforce_cartpole_returns.csv
 
 PYTHONPATH=. python scripts/train.py --agent reinforce_with_baseline --env CartPole-v1 --episodes 300 --save_path results/reinforce_with_baseline_cartpole_returns.csv
+
+PYTHONPATH=. python scripts/train.py --agent dqn --env CartPole-v1 --episodes 300 --save_path results/dqn.csv
 
 ```
 - agent   : Agent name (e.g., reinforce, ppo, etc.)
